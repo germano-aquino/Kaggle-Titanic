@@ -17,9 +17,10 @@ pd.options.display.max_columns = 100
 test = pd.read_csv('test.csv')
 train = pd.read_csv('train.csv')
 
-dropCols = ['Ticket', 'Cabin', ]
+dropCols = ['Ticket']
 
-catClass = ['Pclass', 'Sex', 'Embarked', 'Age', 'Name', 'SibSp', 'Parch']
+catClass = ['Pclass', 'Sex', 'Embarked',
+            'Age', 'Name', 'SibSp', 'Parch', 'Cabin']
 
 alive = train[train['Survived'] == 1]
 deads = train[train['Survived'] == 0]
@@ -41,12 +42,15 @@ trainCleaned = cleanTitanic(
 # plt.show()
 testCleaned[testCleaned.Name.isnull()]['Name'] = 'Dona'
 
-print(testCleaned[testCleaned['PassengerId'] == 1306])
+print(testCleaned.head())
+
 
 X, y = XandY(trainCleaned, dummyCols=catClass)
 testCleaned['Survived'] = [None]*testCleaned.shape[0]
 Xresult, yresult = XandY(testCleaned, dummyCols=catClass)
 Xresult['Name_Royalty'] = [0]*Xresult.shape[0]
+Xresult['Cabin_T'] = [0]*Xresult.shape[0]
+
 
 print("Formato de X ", X.head())
 print("Formato de Xresult ", Xresult.head())

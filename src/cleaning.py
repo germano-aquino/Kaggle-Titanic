@@ -23,6 +23,15 @@ Title_dict = {
 }
 
 
+def cleanCabin(cabin):
+    if(isinstance(cabin, str)):
+        for c in cabin:
+            if(c.isalpha()):
+                return c
+    else:
+        return 'U'
+
+
 def cleanName(name):
     w1 = name.split(",")[1]
     w2 = w1.split(".")[0].strip()
@@ -38,6 +47,7 @@ def cleanTitanic(df, dropCols,  catClass, medianCols=[]):
     df['Name'] = df.Name.map(Title_dict)
     df['SibSp'] = df['SibSp'].apply(lambda x: 2 if x > 1 else x)
     df['Parch'] = df['Parch'].apply(lambda x: 2 if x > 1 else x)
+    df['Cabin'] = df['Cabin'].apply(lambda x: cleanCabin(x))
     df = df.drop(dropCols, axis=1)
     for col in medianCols:
         df[col].fillna(value=df[col].median(), inplace=True)
